@@ -1,20 +1,22 @@
-import logo from './logo.svg';
+import Dishdetail from'./components/DishdetailComponent';
 import './App.css';
-import {Navbar, NavbarBrand} from 'reactstrap';
-import Menu from './components/MenuComponent';
+ import Main from './components/MainComponent';
+ import React, { Component } from 'react';
+ 
 
+class App extends Component {
+   
+  render(){
 
-function App() {
   return (
     <div className="App">
-   <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/"> Ristorante Con Fusion</NavbarBrand>
-          </div>
-        </Navbar>
-        <Menu/>
+    <Main/>
+        
+      
+      
     </div>
   );
+}
 }
 
 export default App;
