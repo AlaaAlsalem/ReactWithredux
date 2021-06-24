@@ -8,6 +8,7 @@ import {
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Loading} from'./LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import {FadeTransform , Fade , Stagger} from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -30,7 +31,7 @@ class CommentForm extends Component {
 
     handleCommentFormSubmit(values) {
         this.toggleCommentFormModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
        // console.log("Current State is: " + JSON.stringify(values));
       //  alert("Current State is: " + JSON.stringify(values));
 
@@ -159,6 +160,11 @@ class CommentForm extends Component {
         if (dish != null) {
             return (
                 <div className='col-12 col-md-5 m-1'>
+                     <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                     <Card>
                     <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                         <CardBody>
@@ -166,6 +172,7 @@ class CommentForm extends Component {
                             <CardText> {dish.description} </CardText>
                         </CardBody>
                     </Card>
+                    </FadeTransform>
                 </div>   
             );
         }
@@ -176,7 +183,7 @@ class CommentForm extends Component {
         }
     }
 
-    function RenderComments({dish,comments, addComment, dishId}){
+    function RenderComments({dish,comments, postComment, dishId}){
         if (comments == null) {
             return (<div></div>)
         }
@@ -201,9 +208,14 @@ class CommentForm extends Component {
             <div className='col-12 col-md-5 m-1'>
                 <h4> Comments </h4>
                 <ul className='list-unstyled'>
+                <Stagger in>
+                <Fade in>
                     {cmnts}
+                    </Fade>
+                    </Stagger>
                 </ul>
-                <CommentForm  dishId={dishId} addComment={addComment}    />
+
+                <CommentForm  dishId={dishId} postComment={postComment}    />
             </div>
         )
     }
@@ -252,7 +264,7 @@ class CommentForm extends Component {
                 <div className='row'>
                     <RenderDish dish={ props.dish } />
                     <RenderComments dish={props.dish} comments={ props.comments } 
-                    addComment={props.addComment}
+                    postComment={props.postComment}
                     dishId={props.dish.id}/>
                 </div>
 
